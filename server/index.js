@@ -12,7 +12,12 @@ const io = socketIo(server, {
 
 io.on("connection", (socket) => {
   console.log("client connected: ", socket.id);
-  socket.on("send-chat-message", (message, roomId) => {
+
+  socket.on("room.join", (roomId) => {
+    socket.join(roomId);
+  });
+
+  socket.on("room.message", (message, roomId) => {
     socket.to(roomId).emit("chat-message", message);
   });
 });

@@ -16,7 +16,7 @@ export default function ChatRoomContainer() {
   };
 
   const onMessageSend = () => {
-    socket.emit("send-chat-message", messageInput, roomId);
+    socket.emit("room.message", messageInput, roomId);
     setMessageInput("");
   };
 
@@ -26,6 +26,7 @@ export default function ChatRoomContainer() {
       console.log(`Socket connected with id:${socket.id}`);
       setSocket(socket);
     });
+    socket.emit("room.join", roomId);
     socket.on("chat-message", (data) => {
       setChatArray((chat) => {
         const _chat = [...chat];
@@ -35,9 +36,12 @@ export default function ChatRoomContainer() {
         return _chat;
       });
     });
+    return () => socket.disconnect();
   }, []);
 
   return (
-    <ChatRoomComponent {...{ handleOnChange, onMessageSend, chatArray }} />
+    <ChatRoomComponent
+      {...{ handleOnChange, onMessageSend, chatArray, messageInput }}
+    />
   );
 }

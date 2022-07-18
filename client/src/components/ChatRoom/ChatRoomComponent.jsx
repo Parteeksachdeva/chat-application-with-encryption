@@ -4,6 +4,7 @@ export default function ChatRoomComponent({
   handleOnChange,
   onMessageSend,
   chatArray,
+  messageInput,
 }) {
   return (
     <section className="flex flex-col justify-center m-10">
@@ -15,7 +16,11 @@ export default function ChatRoomComponent({
         ))}
       </div>
 
-      <input className="border-2" onChange={handleOnChange} />
+      <input
+        className="border-2"
+        onChange={handleOnChange}
+        value={messageInput}
+      />
       <button onClick={onMessageSend}>Send</button>
     </section>
   );
